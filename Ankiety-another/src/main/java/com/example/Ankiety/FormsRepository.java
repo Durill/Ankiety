@@ -21,8 +21,12 @@ public interface FormsRepository extends CrudRepository<Forms, Long>, JpaReposit
     @Query("SELECT f.Answer1, f.Answer2, f.Answer3, f.Answer4, f.Answer5 FROM Forms f WHERE f.FormName= :name AND f.Email = :email")
     String findAnswers(@Param(value = "name") String name, @Param(value = "email") String email);
 
-    @Query("SELECT f.Quantity1, f.Quantity2, f.Quantity3, f.Quantity4, f.Quantity5 FROM Forms f WHERE f.FormName= :formName AND f.Email = :email")
-    String showQuantities(@Param(value = "formName") String formName, @Param(value = "email") String email);
+    @Query("SELECT f.Quantity1, f.Quantity2, f.Quantity3, f.Quantity4, f.Quantity5 FROM Forms f WHERE f.FormName= :formName AND f.Email = :email AND f.id = :id")
+    String showQuantities(@Param(value = "formName") String formName, @Param(value = "email") String email, @Param(value = "id") Long id);
+
+    @Query("SELECT f.id FROM Forms f WHERE f.FormName= :formName AND f.Email = :email")
+    Long findId(@Param(value = "formName") String formName, @Param(value = "email") String email);
+
 
     @Modifying
     @Transactional

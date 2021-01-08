@@ -14,6 +14,7 @@ public class MainController {
 
     @Autowired
     private FormsRepository formsRepository;
+    private boolean isSaved=false;
 
 
 
@@ -25,10 +26,13 @@ public class MainController {
     }
 
     @PostMapping("/definegroup")
-    public String createForm(@ModelAttribute Forms forms, Model model, String formName, String email){
+    public String createForm(@ModelAttribute Forms forms, Model model, String formName, String email
+    ,Integer quantity1, Integer quantity2
+            , Integer quantity3, Integer quantity4, Integer quantity5){
         model.addAttribute("former", forms);
-        if(!formsRepository.checkIfExist(formName, email)){
+        if(!formsRepository.checkIfExist(formName, email) & isSaved==false){
             formsRepository.save(forms);
+            isSaved=true;
         }
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
@@ -39,11 +43,15 @@ public class MainController {
                 .map(String::trim)
                 .collect(Collectors.toList());
         model.addAttribute("splitanswer", splitStr);
-        String quantities = formsRepository.showQuantities(formName, email);
+        Long showId = formsRepository.findId(formName, email);
+        String quantities = formsRepository.showQuantities(formName, email, showId);
         List<String> splitQnt = Arrays.stream(quantities.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
         model.addAttribute("splitQuantities", splitQnt);
+        if(formsRepository.checkIfExist(formName, email) & isSaved==true){
+            formsRepository.updateQuantity( formName, email, quantity1, quantity2, quantity3, quantity4, quantity5);
+        }
         return "define_group";
     }
 
@@ -58,7 +66,8 @@ public class MainController {
         model.addAttribute("former", forms);
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
-        String quantities = formsRepository.showQuantities(formName, email);
+        Long showId = formsRepository.findId(formName, email);
+        String quantities = formsRepository.showQuantities(formName, email,showId);
         List<String> splitQnt = Arrays.stream(quantities.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
@@ -71,7 +80,18 @@ public class MainController {
 
     }
 
+    @GetMapping("/stopvoting")
+    public String stopVoting(){
+        return "stop_voting";
+    }
 
+    @RequestMapping("/formsaved")
+    @ResponseBody
+    public String queryStringMapping(
+            @RequestParam String param1,
+            @RequestParam String param2) {
+        return String.format("Otrzymane wartości: param1=%s, param2=%s", param1, param2);
+    }
 
 
 }
