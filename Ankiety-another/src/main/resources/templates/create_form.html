@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Define group</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+    <div class="container main">
+        <h1>Want to create questionnaire fast and easy? Try it out!</h1>
+        <form th:attr="action=@{/definegroup}" th:object="${former}" method="post">
+            <div class="form-group">
+                <label for="table-name">Polling name:</label>
+                <input type="text" th:field="*{formName}" class="form-control" id="table-name">
+                <label for="email">email:</label>
+                <input type="text" th:field="*{email}" class="form-control" id="email">
+                <input type="hidden" id="numberOfAnswers" th:field="*{numberOfChoices}" value="1">
+          </div>
+            <h2>Your answers</h2>
+            <div class="container" id="answers">
+                <div class="eachAnswer">
+                    <input type="text" name="answer1">
+                </div>
+            </div>
+            <button type="button" id="answerAdder" class="btn btn-primary adder">Add answer</button><br>
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+    </div>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var adder = document.getElementById("answerAdder");
+    var answers = document.getElementById("answers");
+    adder.addEventListener("click", InsideChanger);
+    var i=2;
+    function InsideChanger(){
+        var divToAdd = '<div class="eachAnswer"><input type="text" name="answer'+i+'"></div>';
+        if(i<=5){
+            i++;
+            answers.innerHTML = answers.innerHTML + divToAdd;
+            document.getElementById("numberOfAnswers").value=i-1;
+        }
+        else if(i>=6){
+            console.log("disabled");
+        }
+
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

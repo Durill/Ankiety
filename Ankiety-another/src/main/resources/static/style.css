@@ -1,0 +1,25 @@
+body{
+    background-color: #212121;
+    color: #2e2e2e;
+    text-align: center;
+}
+.main{
+    background-color: #dcdcdc;
+    text-align: center;
+    margin-top: 50px;
+    padding: 40px 40px;
+}
+
+.eachAnswer{
+    margin:12px;
+    padding: 10px;
+    border: #3aa6ff 2px solid;
+    border-radius: 15px;
+    background-color: white;
+    color:#3aa6ff;
+}
+
+.adder{
+    margin-top:15px;
+    margin-bottom: 15px;
+}

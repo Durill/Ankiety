@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Define group</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<h1 style="color: white" th:inline="text">[[${name}]]</h1>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div class="eachAnswer" th:if="${splitanswer.get(0)!='null'}">
+                <p th:text="${splitanswer.get(0)}"></p><button class="btn btn-primary" onclick="addAnswer(1)">Select</button>
+            </div>
+            <div class="eachAnswer" th:if="${splitanswer.get(1)!='null'}">
+                <p th:text="${splitanswer.get(1)}"></p><button class="btn btn-primary" onclick="addAnswer(2)">Select</button>
+            </div>
+            <div class="eachAnswer" th:if="${splitanswer.get(2)!='null'}">
+                <p th:text="${splitanswer.get(2)}"></p><button class="btn btn-primary" onclick="addAnswer(3)">Select</button>
+            </div>
+            <div class="eachAnswer" th:if="${splitanswer.get(3)!='null'}">
+                <p th:text="${splitanswer.get(3)}"></p><button class="btn btn-primary" onclick="addAnswer(4)">Select</button>
+            </div>
+            <div class="eachAnswer" th:if="${splitanswer.get(4)!='null'}">
+                <p th:text="${splitanswer.get(4)}"></p><button class="btn btn-primary" onclick="addAnswer(5)">Select</button>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+<form th:attr="action=@{/showanswers}" th:object="${former}" method="post">
+    <input type="hidden" name="[[${name}]]" id="nameId" th:field="*{formName}">
+    <input type="hidden" name="[[${email}]]" th:field="*{email}">
+    <input type="hidden" id="quantityId1" name="quantity1" th:value="${splitQuantities.get(0)}">
+    <input type="hidden" id="quantityId2" name="quantity2" th:value="${splitQuantities.get(1)}">
+    <input type="hidden" id="quantityId3" name="quantity3" th:value="${splitQuantities.get(2)}">
+    <input type="hidden" id="quantityId4" name="quantity4" th:value="${splitQuantities.get(3)}">
+    <input type="hidden" id="quantityId5" name="quantity5" th:value="${splitQuantities.get(4)}" >
+    <button type="submit" class="btn btn-success">Send answer!</button>
+</form>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function addAnswer(id){
+        var docs = document.getElementById("quantityId"+id);
+        console.log(docs);
+        docs.value++;
+    }
+    /*]]>*/
+</script>
+
+
+</body>
+</html>
