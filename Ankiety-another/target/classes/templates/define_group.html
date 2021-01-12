@@ -43,14 +43,12 @@
     <button type="submit" class="btn btn-success">Send answer!</button>
 </form>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
+<script type="text/javascript">
     function addAnswer(id){
         var docs = document.getElementById("quantityId"+id);
         console.log(docs);
         docs.value++;
     }
-    /*]]>*/
 </script>
 
 

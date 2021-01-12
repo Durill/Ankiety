@@ -12,6 +12,7 @@
         <h1>Want to create questionnaire fast and easy? Try it out!</h1>
         <form th:attr="action=@{/definegroup}" th:object="${former}" method="post">
             <div class="form-group">
+                <input type="hidden" th:field="*{id}">
                 <label for="table-name">Polling name:</label>
                 <input type="text" th:field="*{formName}" class="form-control" id="table-name">
                 <label for="email">email:</label>
@@ -30,8 +31,7 @@
     </div>
 
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
+<script type="text/javascript">
     var adder = document.getElementById("answerAdder");
     var answers = document.getElementById("answers");
     adder.addEventListener("click", InsideChanger);
@@ -48,7 +48,6 @@
         }
 
     }
-    /*]]>*/
 </script>
 </body>
 </html>
