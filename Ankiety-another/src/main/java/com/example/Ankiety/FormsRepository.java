@@ -36,6 +36,14 @@ public interface FormsRepository extends CrudRepository<Forms, Long>, JpaReposit
             ,@Param(value = "quantity3") Integer quantity3 ,@Param(value = "quantity4") Integer quantity4
             ,@Param(value = "quantity5") Integer quantity5);
 
+    @Modifying
+    @Transactional
+    @Query("update Forms f set f.NumberOfChoices =:choices, f.Answer1 =:answer1, f.Answer2 =:answer2, f.Answer3 =:answer3, f.Answer4 =:answer4, f.Answer5 =:answer5  WHERE f.FormName= :formName AND f.Email = :email")
+    void updateAnswers(@Param(value = "formName") String formName,@Param(value = "email") String email,@Param(value = "choices") Integer choices
+            ,@Param(value = "answer1") String answer1 ,@Param(value = "answer2") String answer2
+            ,@Param(value = "answer3") String answer3 ,@Param(value = "answer4") String answer4
+            ,@Param(value = "answer5") String answer5);
+
     @Query("select case when count(f)> 0 then true else false end from Forms f where lower(f.FormName) like lower(:name) AND lower(f.Email) like lower(:email)")
     Boolean checkIfExist(@Param( value = "name") String formName, @Param(value = "email") String email);
 
