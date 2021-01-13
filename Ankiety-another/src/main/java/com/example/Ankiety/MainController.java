@@ -31,45 +31,38 @@ public class MainController {
     ,Integer numberOfChoices, String answer1, String answer2, String answer3, String answer4, String answer5){
         model.addAttribute("former", forms);
 
-        if(!formsRepository.checkIfExist(formName, email) & isSaved==false){
-            formsRepository.save(forms);
-            isSaved=true;
-        }else if(formsRepository.checkIfExist(formName, email) & isSaved==true & formsRepository.findFormByName(formName,email)<=5){
-            Integer choices = formsRepository.findFormByName(formName, email);
-            model.addAttribute("choices", choices);
+        try {
+            if(!formsRepository.checkIfExist(formName, email) & isSaved==false){
+                formsRepository.save(forms);
+                isSaved=true;
+            }else if(formsRepository.checkIfExist(formName, email) & isSaved==true & formsRepository.findFormByName(formName,email)<=5){
+                Integer choices = formsRepository.findFormByName(formName, email);
+                model.addAttribute("choices", choices);
 
-            String answerOne = formsRepository.findAnswers(formName, email);
-            List<String> splitStr = Arrays.stream(answerOne.split(","))
-                    .map(String::trim)
-                    .collect(Collectors.toList());
-            model.addAttribute("splitanswer", splitStr);
+                String answerOne = formsRepository.findAnswers(formName, email);
+                List<String> splitStr = Arrays.stream(answerOne.split(","))
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+                model.addAttribute("splitanswer", splitStr);
 
-            formsRepository.updateAnswers(formName,email,numberOfChoices,answer1,answer2,answer3,answer4,answer5);
-            choicesOfForm(forms, model, formName, email);
-        }
+                formsRepository.updateAnswers(formName,email,numberOfChoices,answer1,answer2,answer3,answer4,answer5);
+                choicesOfForm(forms, model, formName, email);
+            }
 
             model.addAttribute("name", forms.getFormName());
             model.addAttribute("email", forms.getEmail());
             choicesOfForm(forms, model, formName, email);
 
             return "your_form";
-    }
 
-    @PostMapping("/saving")
-    public String saving(@ModelAttribute Forms forms, Model model, String formName, String email){
-        model.addAttribute("former", forms);
-        String answerOne = formsRepository.findAnswers(formName, email);
-        List<String> splitStr = Arrays.stream(answerOne.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        Integer choices = formsRepository.findFormByName(formName, email);
-        return "saving";
+        }catch(Exception e){
+            model.addAttribute("formnotadded", true);
+        }
+        return "create_form";
     }
 
     public void choicesOfForm(@ModelAttribute Forms forms, Model model, String formName, String email) {
-        Integer choices = formsRepository.findFormByName(formName, email);
         model.addAttribute("choices", formsRepository.findFormByName(formName, email));
-
 
         String answerOne = formsRepository.findAnswers(formName, email);
         List<String> splitStr = Arrays.stream(answerOne.split(","))
@@ -108,7 +101,6 @@ public class MainController {
         formsRepository.updateQuantity( formName, email, quantity1, quantity2, quantity3, quantity4, quantity5);
         String answerOne = formsRepository.findAnswers(forms.getFormName(), forms.getEmail());
 
-        model.addAttribute("former", forms);
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
 

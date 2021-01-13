@@ -4,6 +4,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Forms {
     private String FormName;
 
     @Email
+    @NotEmpty
     private String Email;
 
     private Integer NumberOfChoices=0;

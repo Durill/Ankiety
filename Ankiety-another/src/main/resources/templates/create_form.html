@@ -17,6 +17,7 @@
                 <input type="text" th:field="*{formName}" class="form-control" id="table-name">
                 <label for="email">email:</label>
                 <input type="text" th:field="*{email}" class="form-control" id="email">
+                <p th:if="${formnotadded}==true" style="color:#ff0000">Invalid name or email</p>
                 <input type="hidden" id="numberOfAnswers" th:field="*{numberOfChoices}" value="1">
           </div>
             <h2>Your answers</h2>

@@ -44,7 +44,6 @@
                 let y;
                 for(y=1;y<=5;y++){
                     let check = document.getElementById("answer"+y);
-                    console.log(y);
                     if(!check & numberOfAnswers<5){
                         numberOfAnswers++;
                         $(wrapper).append('<div><input type="text"name="'+'answer'+numberOfAnswers+'"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
@@ -64,7 +63,6 @@
                     if(!check){
                         if(j<empty){
                             empty=j;
-                            console.log(empty);
                         }
                     }
                 }
@@ -72,9 +70,9 @@
                 for(z=empty+1;z>empty;z++){
                     let changeName =  document.getElementById("answer"+z);
                     if(changeName){
-                        console.log(changeName);
                         let newNumber = z-1;
                         $(changeName).attr('name', 'answer'+newNumber);
+                        $(changeName).attr('id', 'answer'+newNumber);
                     }else if(z>5){
                         break;
                     }
