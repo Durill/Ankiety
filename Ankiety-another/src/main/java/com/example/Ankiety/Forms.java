@@ -20,7 +20,7 @@ public class Forms {
     @Email
     private String Email;
 
-    private Integer NumberOfChoices;
+    private Integer NumberOfChoices=0;
 
     private String Answer1;
     private Integer Quantity1=0;

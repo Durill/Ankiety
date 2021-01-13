@@ -32,7 +32,7 @@
         <div class="col"></div>
     </div>
 </div>
-<form th:attr="action=@{/showanswers}" th:object="${former}" method="post">
+<form th:attr="action=@{/answersaftervoting}" th:object="${former}" method="post">
     <input type="hidden" name="[[${name}]]" id="nameId" th:field="*{formName}">
     <input type="hidden" name="[[${email}]]" th:field="*{email}">
     <input type="hidden" id="quantityId1" name="quantity1" th:value="${splitQuantities.get(0)}">
