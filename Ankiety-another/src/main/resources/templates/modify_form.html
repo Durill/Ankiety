@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Your form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var wrapper = $(".container1");
+            var add_button = $("#add_button");
+            var numberOfAnswers = [[${choices}]];
+
+            var i;
+            for (i = 1; i <= 5; i++) {
+                    switch (i){
+                        case 1:
+                            $(wrapper).append('<div><input id="answer'+i+'" type="text" name="'+'answer'+i+'" value="[[${splitanswer.get(0)}]]"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                            break;
+                        case 2:
+                            $(wrapper).append('<div><input id="answer'+i+'" type="text"  name="'+'answer'+i+'" value="[[${splitanswer.get(1)}]]"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                            break;
+                        case 3:
+                            $(wrapper).append('<div><input id="answer'+i+'" type="text"  name="'+'answer'+i+'" value="[[${splitanswer.get(2)}]]"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                            break;
+                        case 4:
+                            $(wrapper).append('<div><input id="answer'+i+'" type="text"  name="'+'answer'+i+'" value="[[${splitanswer.get(3)}]]"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                            break;
+                        case 5:
+                            $(wrapper).append('<div><input id="answer'+i+'" type="text"  name="'+'answer'+i+'" value="[[${splitanswer.get(4)}]]"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                            break;
+                    }
+                    let check = document.getElementById("answer"+i);
+                    if(check.value=="null"){
+                        $(check).parent().remove();
+                    }
+            }
+
+            $(add_button).click(function(e) {
+                e.preventDefault();
+                let y;
+                for(y=1;y<=5;y++){
+                    let check = document.getElementById("answer"+y);
+                    if(!check & numberOfAnswers<5){
+                        numberOfAnswers++;
+                        $(wrapper).append('<div><input type="text"name="'+'answer'+numberOfAnswers+'"/><a href="#" class="delete"><button class="btn btn-danger">Delete</button></a></div>');
+                        document.getElementById("choices").value=numberOfAnswers;
+                        break;
+                    }
+                }
+            });
+
+            $(wrapper).on("click", ".delete", function(e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                let j;
+                let empty=5;
+                for(j=1;j<=5;j++){
+                    let check = document.getElementById("answer"+j);
+                    if(!check){
+                        if(j<empty){
+                            empty=j;
+                        }
+                    }
+                }
+                let z;
+                for(z=empty+1;z>empty;z++){
+                    let changeName =  document.getElementById("answer"+z);
+                    if(changeName){
+                        let newNumber = z-1;
+                        $(changeName).attr('name', 'answer'+newNumber);
+                        $(changeName).attr('id', 'answer'+newNumber);
+                    }else if(z>5){
+                        break;
+                    }
+                }
+                numberOfAnswers--;
+                document.getElementById("choices").value=numberOfAnswers;
+            })
+        });
+    </script>
+</head>
+<body>
+
+<h1 style="color: white" th:inline="text">[[${name}]]</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+            <form th:attr="action=@{/yourform}" th:object="${former}" method="post">
+                <input type="hidden" th:field="*{formName}">
+                <input type="hidden" th:field="*{email}">
+                <input type="hidden" id="choices" th:field="*{numberOfChoices}">
+                <input type="hidden" id="quantityId1" name="quantity1" value="0">
+                <input type="hidden" id="quantityId2" name="quantity2" value="0">
+                <input type="hidden" id="quantityId3" name="quantity3" value="0">
+                <input type="hidden" id="quantityId4" name="quantity4" value="0">
+                <input type="hidden" id="quantityId5" name="quantity5" value="0">
+                <div class="container1">
+                    <button id="add_button" class="btn btn-primary">Add New Answer</button><br/><br/>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
