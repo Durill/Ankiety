@@ -38,17 +38,11 @@ public class MainController {
             }else if(formsRepository.checkIfExist(formName, email) & isSaved==true & formsRepository.findFormByName(formName,email)<=5){
                 Integer choices = formsRepository.findFormByName(formName, email);
                 model.addAttribute("choices", choices);
-
-                String answerOne = formsRepository.findAnswers(formName, email);
-                List<String> splitStr = Arrays.stream(answerOne.split(","))
-                        .map(String::trim)
-                        .collect(Collectors.toList());
-                model.addAttribute("splitanswer", splitStr);
+                model.addAttribute("splitanswer", convertAnswersToList(formName, email));
 
                 formsRepository.updateAnswers(formName,email,numberOfChoices,answer1,answer2,answer3,answer4,answer5);
                 choicesOfForm(forms, model, formName, email);
             }
-
             model.addAttribute("name", forms.getFormName());
             model.addAttribute("email", forms.getEmail());
             choicesOfForm(forms, model, formName, email);
@@ -61,22 +55,28 @@ public class MainController {
         return "create_form";
     }
 
-    public void choicesOfForm(@ModelAttribute Forms forms, Model model, String formName, String email) {
-        model.addAttribute("choices", formsRepository.findFormByName(formName, email));
-
-        String answerOne = formsRepository.findAnswers(formName, email);
+    public List<String> convertAnswersToList(String formname, String email){
+        String answerOne = formsRepository.findAnswers(formname, email);
         List<String> splitStr = Arrays.stream(answerOne.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        model.addAttribute("splitanswer", splitStr);
+        return splitStr;
+    }
 
-        Long showId = formsRepository.findId(formName, email);
+    public List<String> convertQuantitiesToList(String formname, String email){
+        Long showId = formsRepository.findId(formname, email);
 
-        String quantities = formsRepository.showQuantities(formName, email, showId);
+        String quantities = formsRepository.showQuantities(formname, email, showId);
         List<String> splitQnt = Arrays.stream(quantities.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        model.addAttribute("splitQuantities", splitQnt);
+        return splitQnt;
+    }
+
+    public void choicesOfForm(@ModelAttribute Forms forms, Model model, String formName, String email) {
+        model.addAttribute("choices", formsRepository.findFormByName(formName, email));
+        model.addAttribute("splitanswer", convertAnswersToList(formName, email));
+        model.addAttribute("splitQuantities", convertQuantitiesToList(formName, email));
     }
 
     @PostMapping("/definegroup")
@@ -99,23 +99,11 @@ public class MainController {
             , Integer quantity1, Integer quantity2, Integer quantity3, Integer quantity4, Integer quantity5){
         model.addAttribute("former", forms);
         formsRepository.updateQuantity( formName, email, quantity1, quantity2, quantity3, quantity4, quantity5);
-        String answerOne = formsRepository.findAnswers(forms.getFormName(), forms.getEmail());
 
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
-
-        Long showId = formsRepository.findId(formName, email);
-
-        String quantities = formsRepository.showQuantities(formName, email,showId);
-        List<String> splitQnt = Arrays.stream(quantities.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        model.addAttribute("splitQuantities", splitQnt);
-
-        List<String> splitStr = Arrays.stream(answerOne.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        model.addAttribute("splitanswer", splitStr);
+        model.addAttribute("splitQuantities", convertQuantitiesToList(formName, email));
+        model.addAttribute("splitanswer", convertAnswersToList(formName, email));
         return "showaftervoting";
     }
 
@@ -123,25 +111,11 @@ public class MainController {
     @PostMapping("/showanswers")
     public String showAnswers(@ModelAttribute Forms forms, Model model, String formName, String email){
         model.addAttribute("former", forms);
-
-        String answerOne = formsRepository.findAnswers(forms.getFormName(), forms.getEmail());
-
         model.addAttribute("former", forms);
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
-
-        Long showId = formsRepository.findId(formName, email);
-
-        String quantities = formsRepository.showQuantities(formName, email,showId);
-        List<String> splitQnt = Arrays.stream(quantities.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        model.addAttribute("splitQuantities", splitQnt);
-
-        List<String> splitStr = Arrays.stream(answerOne.split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
-        model.addAttribute("splitanswer", splitStr);
+        model.addAttribute("splitQuantities", convertQuantitiesToList(formName, email));
+        model.addAttribute("splitanswer", convertAnswersToList(formName, email));
 
         return "show_answers";
 
