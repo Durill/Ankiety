@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Define group</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
@@ -34,14 +35,14 @@
 
 <script type="text/javascript">
     var adder = document.getElementById("answerAdder");
-    var answers = document.getElementById("answers");
+    var answers = $('#answers');
     adder.addEventListener("click", InsideChanger);
     var i=2;
     function InsideChanger(){
         var divToAdd = '<div class="eachAnswer"><input type="text" name="answer'+i+'"></div>';
         if(i<=5){
+            $(answers).append('<div class="eachAnswer"><input type="text" name="answer'+i+'"></div>');
             i++;
-            answers.innerHTML = answers.innerHTML + divToAdd;
             document.getElementById("numberOfAnswers").value=i-1;
         }
         else if(i>=6){
