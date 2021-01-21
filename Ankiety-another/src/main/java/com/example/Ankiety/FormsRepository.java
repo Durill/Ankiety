@@ -8,10 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 @Repository
 public interface FormsRepository extends CrudRepository<Forms, Long>, JpaRepository<Forms, Long> {
 

@@ -39,7 +39,6 @@
     adder.addEventListener("click", InsideChanger);
     var i=2;
     function InsideChanger(){
-        var divToAdd = '<div class="eachAnswer"><input type="text" name="answer'+i+'"></div>';
         if(i<=5){
             $(answers).append('<div class="eachAnswer"><input type="text" name="answer'+i+'"></div>');
             i++;
