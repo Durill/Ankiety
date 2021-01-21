@@ -136,20 +136,7 @@ public class MainController {
         model.addAttribute("splitanswer", convertAnswersToList(formName, email));
         return "showaftervoting";
     }
-
-
-    @PostMapping("/showanswers")
-    public String showAnswers(@ModelAttribute Forms forms, Model model, String formName, String email){
-        model.addAttribute("former", forms);
-        model.addAttribute("former", forms);
-        model.addAttribute("name", forms.getFormName());
-        model.addAttribute("email", forms.getEmail());
-        model.addAttribute("splitQuantities", convertQuantitiesToList(formName, email));
-        model.addAttribute("splitanswer", convertAnswersToList(formName, email));
-
-        return "show_answers";
-
-    }
+    
 
 
 }
