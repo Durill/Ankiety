@@ -19,6 +19,14 @@ body{
     color:#3aa6ff;
 }
 
+.selectedVote{
+    background-color: rgba(96,255,100,0.76);
+    border:  rgba(96,255,100,0.76) 5px solid;
+    transition: all .3s ease-in-out;
+    font-weight: bold;
+    color: rgba(255,255,255,0.76);
+}
+
 .adder{
     margin-top:15px;
     margin-bottom: 15px;

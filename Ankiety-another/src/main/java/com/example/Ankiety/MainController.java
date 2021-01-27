@@ -17,6 +17,7 @@ public class MainController {
 
     private boolean isSaved=false;
     private boolean formModified=false;
+    private boolean redirectAfterVote=false;
 
 
 
@@ -45,9 +46,9 @@ public class MainController {
                 model.addAttribute("splitanswer", convertAnswersToList(formName, email));
                 if(formModified==true){
                     formsRepository.updateQuantity( formName, email, quantity1, quantity2, quantity3, quantity4, quantity5);
+                    formsRepository.updateAnswers(formName,email,numberOfChoices,answer1,answer2,answer3,answer4,answer5);
                     formModified=false;
                 }
-                formsRepository.updateAnswers(formName,email,numberOfChoices,answer1,answer2,answer3,answer4,answer5);
                 choicesOfForm(forms, model, formName, email);
             }
             model.addAttribute("name", forms.getFormName());
@@ -129,6 +130,7 @@ public class MainController {
             , Integer quantity1, Integer quantity2, Integer quantity3, Integer quantity4, Integer quantity5){
         model.addAttribute("former", forms);
         formsRepository.updateQuantity( formName, email, quantity1, quantity2, quantity3, quantity4, quantity5);
+        redirectAfterVote=true;
 
         model.addAttribute("name", forms.getFormName());
         model.addAttribute("email", forms.getEmail());
@@ -136,7 +138,7 @@ public class MainController {
         model.addAttribute("splitanswer", convertAnswersToList(formName, email));
         return "showaftervoting";
     }
-    
+
 
 
 }

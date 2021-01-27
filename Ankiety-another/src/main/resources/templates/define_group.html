@@ -13,19 +13,19 @@
     <div class="row">
         <div class="col"></div>
         <div class="col">
-            <div class="eachAnswer" th:if="${splitanswer.get(0)!='null'}">
+            <div class="eachAnswer" id="answer1" th:if="${splitanswer.get(0)!='null'}">
                 <p th:text="${splitanswer.get(0)}"></p><button class="btn btn-primary" onclick="addAnswer(1)">Select</button>
             </div>
-            <div class="eachAnswer" th:if="${splitanswer.get(1)!='null'}">
+            <div class="eachAnswer" id="answer2" th:if="${splitanswer.get(1)!='null'}">
                 <p th:text="${splitanswer.get(1)}"></p><button class="btn btn-primary" onclick="addAnswer(2)">Select</button>
             </div>
-            <div class="eachAnswer" th:if="${splitanswer.get(2)!='null'}">
+            <div class="eachAnswer" id="answer3" th:if="${splitanswer.get(2)!='null'}">
                 <p th:text="${splitanswer.get(2)}"></p><button class="btn btn-primary" onclick="addAnswer(3)">Select</button>
             </div>
-            <div class="eachAnswer" th:if="${splitanswer.get(3)!='null'}">
+            <div class="eachAnswer" id="answer4" th:if="${splitanswer.get(3)!='null'}">
                 <p th:text="${splitanswer.get(3)}"></p><button class="btn btn-primary" onclick="addAnswer(4)">Select</button>
             </div>
-            <div class="eachAnswer" th:if="${splitanswer.get(4)!='null'}">
+            <div class="eachAnswer" id="answer5" th:if="${splitanswer.get(4)!='null'}">
                 <p th:text="${splitanswer.get(4)}"></p><button class="btn btn-primary" onclick="addAnswer(5)">Select</button>
             </div>
         </div>
@@ -48,6 +48,7 @@
         var docs = document.getElementById("quantityId"+id);
         console.log(docs);
         docs.value++;
+        document.getElementById("answer"+id).classList.add("selectedVote");
     }
 </script>
 
